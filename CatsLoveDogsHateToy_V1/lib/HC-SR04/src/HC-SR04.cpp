@@ -75,6 +75,7 @@ unsigned long HC_SR04::triggerAndMeasurePulse()
                 return 0;
             }
         }
-        return duration;
+    
     }
+     return duration;
 }
