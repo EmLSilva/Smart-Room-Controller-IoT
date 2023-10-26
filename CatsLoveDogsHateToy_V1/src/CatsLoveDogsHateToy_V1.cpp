@@ -51,9 +51,9 @@ display.setTextSize(1.5);
 display.setTextColor(WHITE);
 display.setCursor(0,0);
 display.display(); 
-//delay(5000);
-display.clearDisplay();
-display.display();
+delay(50000);
+//display.clearDisplay();
+//display.display();
 
 WiFi.on();
 WiFi.setCredentials("IoTNetwork");
@@ -71,10 +71,9 @@ void loop() {
   Serial.printf("Distance:%d\n", rangeInInches);
 	
 if ((rangeInInches<5)&&(rangeInInches>0)){
-  display.clearDisplay();
+  //display.clearDisplay();
     Serial.printf ("dog detected");
    digitalWrite (ledPin, HIGH); //red LED eyes on the mouse
-   //Serial.print(rangeInInches);
    tone(BUZZER, soundBuzzer);
    display.printf("BAD DOG <-- CAT OVERRIDE <--)");
    display.display();
