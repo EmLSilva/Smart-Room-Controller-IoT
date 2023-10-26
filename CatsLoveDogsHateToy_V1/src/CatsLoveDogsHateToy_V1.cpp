@@ -28,8 +28,8 @@ Button BUTTON(pressed);
 long duration;
 int distanceInch;
 float inch;
-unsigned long currentTime;
-unsigned long lastSecond;
+//unsigned long currentTime;
+//unsigned long lastSecond;
 long rangeInInches;
 
 #define OLED_RESET D4
@@ -47,11 +47,11 @@ Serial.begin(9600);
 waitFor(Serial.isConnected,15000);
 onOff = false;
 display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-display.setTextSize(1.5);
+display.setTextSize(1);
 display.setTextColor(WHITE);
 display.setCursor(0,0);
 display.display(); 
-delay(50000);
+delay(1000);
 //display.clearDisplay();
 //display.display();
 
@@ -75,8 +75,11 @@ if ((rangeInInches<5)&&(rangeInInches>0)){
     Serial.printf ("dog detected");
    digitalWrite (ledPin, HIGH); //red LED eyes on the mouse
    tone(BUZZER, soundBuzzer);
-   display.printf("BAD DOG <-- CAT OVERRIDE <--)");
+   display.clearDisplay();
+   display.setCursor(40,10);
+   display.printf("BAD DOG \n \n <-- <-- <-- <-- <--\n \n CAT OVERRIDE BUTTON \n <-- <-- <-- <-- <--");
    display.display();
+   //delay(100000);
    //display.clearDisplay();
    Serial.printf("Turning on Wemo# %i\n",MYWEMO);//start of fan turning on
    wemoWrite(MYWEMO,HIGH);
@@ -85,15 +88,16 @@ if ((rangeInInches<5)&&(rangeInInches>0)){
  }
 
 
- if (rangeInInches >5) {
+ if ((rangeInInches >5)||(rangeInInches==0)) {
   setHue(HUEBULB, true, HueBlue, 55,255);
    Serial.println ("no dog detected");
    noTone(BUZZER);
    digitalWrite (ledPin, LOW); //turn off red LED eyes on the mouse
    display.clearDisplay();
+   display.setCursor(40,10);
    display.printf("GOOD DOG");
    display.display();
-   //delay(2000);
+   //delay(100000);
    
    Serial.printf("Turning off Wemo# %i\n",MYWEMO);
    wemoWrite(MYWEMO,LOW);
