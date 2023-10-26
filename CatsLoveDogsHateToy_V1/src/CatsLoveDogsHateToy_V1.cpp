@@ -70,7 +70,7 @@ void loop() {
 	rangeInInches = ultrasonic.MeasureInInches();
   Serial.printf("Distance:%d\n", rangeInInches);
 	
-if ((rangeInInches<10)&&(rangeInInches>0)){
+if ((rangeInInches<5)&&(rangeInInches>0)){
    Serial.printf ("dog detected");
    digitalWrite (ledPin, HIGH); //red LED eyes on the mouse
    tone(BUZZER, soundBuzzer);
@@ -86,7 +86,7 @@ if ((rangeInInches<10)&&(rangeInInches>0)){
  }
 
 
- if ((rangeInInches >10)||(rangeInInches==0)) {
+ if ((rangeInInches >5)||(rangeInInches==0)) {
   setHue(HUEBULB, true, HueBlue, 55,255);
    Serial.println ("no dog detected");
    noTone(BUZZER);
