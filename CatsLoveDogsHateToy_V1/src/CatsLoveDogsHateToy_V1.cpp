@@ -16,7 +16,7 @@
 const int sigPin = D16;
 const int HUEBULB = 2;
 const int BUZZER = D15; 
-const int pressed = D10; 
+const int CATBUTTON = D10; 
 const int MYWEMO=1;
 int ledPin = D6; 
 int color;
@@ -24,12 +24,10 @@ int soundBuzzer = 1500;
 float distance ;
 bool onOff;
 String ONOFF;
-Button BUTTON(pressed);
+Button catButton(CATBUTTON);
 long duration;
 int distanceInch;
 float inch;
-//unsigned long currentTime;
-//unsigned long lastSecond;
 long rangeInInches;
 
 #define OLED_RESET D4
@@ -42,6 +40,8 @@ void setup() {
 pinMode (ledPin, OUTPUT);
 pinMode (HUEBULB, OUTPUT);
 pinMode (BUZZER, OUTPUT);
+pinMode (CATBUTTON, INPUT); //added 10.26
+onOff = false; //new 10.26
 
 Serial.begin(9600);
 waitFor(Serial.isConnected,15000);
@@ -70,9 +70,8 @@ void loop() {
 	rangeInInches = ultrasonic.MeasureInInches();
   Serial.printf("Distance:%d\n", rangeInInches);
 	
-if ((rangeInInches<5)&&(rangeInInches>0)){
-  //display.clearDisplay();
-    Serial.printf ("dog detected");
+if ((rangeInInches<10)&&(rangeInInches>0)){
+   Serial.printf ("dog detected");
    digitalWrite (ledPin, HIGH); //red LED eyes on the mouse
    tone(BUZZER, soundBuzzer);
    display.clearDisplay();
@@ -83,12 +82,11 @@ if ((rangeInInches<5)&&(rangeInInches>0)){
    //display.clearDisplay();
    Serial.printf("Turning on Wemo# %i\n",MYWEMO);//start of fan turning on
    wemoWrite(MYWEMO,HIGH);
-   //setHue(HUEBULB, false, HueBlue, 55,255);
-    setHue(HUEBULB, true, HueRed, 55,255);
+   setHue(HUEBULB, true, HueRed, 55,255);
  }
 
 
- if ((rangeInInches >5)||(rangeInInches==0)) {
+ if ((rangeInInches >10)||(rangeInInches==0)) {
   setHue(HUEBULB, true, HueBlue, 55,255);
    Serial.println ("no dog detected");
    noTone(BUZZER);
@@ -97,25 +95,27 @@ if ((rangeInInches<5)&&(rangeInInches>0)){
    display.setCursor(40,10);
    display.printf("GOOD DOG");
    display.display();
-   //delay(100000);
-   
    Serial.printf("Turning off Wemo# %i\n",MYWEMO);
    wemoWrite(MYWEMO,LOW);
-   //delay(5000);
+  
    }
+
+  if (catButton.isClicked()) { 
+        onOff = !onOff; 
+        ONOFF = String (onOff);
+        Serial.println ("cat override");
+        setHue(HUEBULB, true, HueBlue, 55,255);
+        noTone(BUZZER);
+        digitalWrite (ledPin, LOW); //turn off red LED eyes on the mouse
+        display.clearDisplay();
+        display.setCursor(40,10);
+        display.printf("CATS RULE");
+        display.display();
+        Serial.printf("Turning off Wemo# %i\n",MYWEMO);
+        wemoWrite(MYWEMO,LOW);
+        delay (10000);
+  }
 }
-  //if (BUTTON.isClicked()) { //this may need a location ie D6
-      //  onOff = !onOff; 
-        //}
-        //setHue(HUEBULB, onOff, HueRed, 55, 255); //this turns bulb on and off
-        
-//if (BUTTON.isClicked()) { //this may need a location ie D6
-  //      onOff = !onOff; 
-   //     }
- //       setHue(HUEBULB, onOff, HueRed, 55, 255); //this turns bulb on and off
-        
-        
-  //}
 
   //add in While loop for vibrating component to be set on timer 
   //also add vibrating componet to be manually turned on with movement
