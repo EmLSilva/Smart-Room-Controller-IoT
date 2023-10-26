@@ -83,6 +83,9 @@ if ((rangeInInches<10)&&(rangeInInches>0)){
    Serial.printf("Turning on Wemo# %i\n",MYWEMO);//start of fan turning on
    wemoWrite(MYWEMO,HIGH);
    setHue(HUEBULB, true, HueRed, 55,255);
+   delay(2000);
+   setHue(HUEBULB, true, HueRed, 255);//added, hoping to make red brighter
+
  }
 
 
