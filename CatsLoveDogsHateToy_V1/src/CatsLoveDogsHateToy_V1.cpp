@@ -18,7 +18,7 @@ const int HUEBULB = 2;
 const int BUZZER = D15; 
 const int CATBUTTON = D10; 
 const int MYWEMO=1;
-int numBulbs; //added 10.27
+//int numBulbs; Six (6) Hue bulbs, commented out due to delay
 int ledPin = D6; 
 int color;
 int soundBuzzer = 1500;
@@ -130,11 +130,13 @@ if ((rangeInInches<5)&&(rangeInInches>0)){
       
   }
 }
-  //FUTURE ADD: while loop for vibrating component to be set on timer 
-  //FUTURE ADD: vibrating componet to be manually turned on with movement
-  //FUTURE ADD: dog collar to sense difference in "whom's" movement should be detected
 
 //void hueFill(int startHue, int endHue, int color, bool onOff){ To operate six (6) Hue bulbs, commented out due to delay
       //for(numBulbs=startHue; numBulbs<endHue; numBulbs++) { 
      //   setHue(HUEBULB[numBulbs], onOff, color, 55,255);
      // }
+
+ 
+  //FUTURE ADD: while loop for vibrating component to be set on timer 
+  //FUTURE ADD: vibrating componet to be manually turned on with movement
+  //FUTURE ADD: dog collar to sense difference in "whom's" movement should be detected
